@@ -32,6 +32,9 @@
       "eas": {
         "projectId": "17e10a29-cb84-4f39-afec-39968acc5b20"
       }
+    },
+    "experiments": {
+      "baseUrl": "/SavConnect_Expo_Final"
     }
   }
 }
