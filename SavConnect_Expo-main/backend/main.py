@@ -20,9 +20,17 @@ CORS_ORIGINS = [
     "exp://192.168.31.29:8081",    # Expo Go native
     "exp://localhost:8081",
 ]
+
+# Render-hosted frontend origins (GitHub Pages + any onrender.com preview)
+CORS_ORIGIN_REGEX = (
+    r"https://.*\.onrender\.com"       # Render preview / service URLs
+    r"|https://.*\.github\.io"         # GitHub Pages (any repo / org)
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
+    allow_origin_regex=CORS_ORIGIN_REGEX,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],

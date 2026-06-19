@@ -1,22 +1,27 @@
 import { Platform } from 'react-native';
 
 const getBaseUrl = () => {
-  if (Platform.OS === 'web') {
-    // If opened on the laptop browser (localhost), use localhost to avoid Chrome's Private Network Access blocks
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-      return 'http://localhost:8000';
-    }
+  // Local browser dev — avoid Chrome's Private Network Access blocks
+  if (
+    Platform.OS === 'web' &&
+    typeof window !== 'undefined' &&
+    window.location.hostname === 'localhost'
+  ) {
+    return 'http://localhost:8000';
   }
-  
-  // For mobile native, or web opened via network IP (like on a phone's browser)
+
+  // Production / hosted build — EXPO_PUBLIC_API_URL is set to the Render URL.
+  // For GitHub Pages builds this is injected at build time via the CI workflow.
+  // For local native dev, create a .env file: EXPO_PUBLIC_API_URL=http://<your-ip>:8000
   if (process.env.EXPO_PUBLIC_API_URL) {
     return process.env.EXPO_PUBLIC_API_URL;
   }
-  
-  return 'http://10.0.2.2:8000'; // Android emulator loopback
+
+  return 'http://10.0.2.2:8000'; // Android emulator loopback fallback
 };
 
 export const API_URL = getBaseUrl();
+
 
 /**
  * Helper to ping the FastAPI backend health check
