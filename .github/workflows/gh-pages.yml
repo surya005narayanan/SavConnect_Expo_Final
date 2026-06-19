@@ -25,11 +25,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 20.x
+          cache: 'npm'
+          cache-dependency-path: SavConnect_Expo-main/frontend/package-lock.json
 
       - name: Install Dependencies
         working-directory: ./SavConnect_Expo-main/frontend
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build for Web
         working-directory: ./SavConnect_Expo-main/frontend
@@ -52,3 +54,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
