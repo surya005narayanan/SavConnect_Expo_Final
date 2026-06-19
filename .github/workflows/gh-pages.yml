@@ -38,6 +38,8 @@ jobs:
         run: npx expo export -p web
         env:
           EXPO_PUBLIC_API_URL: ${{ secrets.RENDER_API_URL }}
+          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
