@@ -73,9 +73,16 @@ export default function RequestModal({ route, navigation }) {
       }
 
       const posterName = opportunity?.profiles?.full_name || 'the organiser';
-      Alert.alert('Request Sent 🎉', `Your join request has been sent to ${posterName}.`, [
-        { text: 'OK', onPress: () => navigation.goBack() },
-      ]);
+      // On web, Alert.alert uses window.alert() which doesn't support button callbacks,
+      // so navigation.goBack() inside onPress never fires. Handle web separately.
+      if (Platform.OS === 'web') {
+        alert(`Request Sent 🎉\nYour join request has been sent to ${posterName}.`);
+        navigation.goBack();
+      } else {
+        Alert.alert('Request Sent 🎉', `Your join request has been sent to ${posterName}.`, [
+          { text: 'OK', onPress: () => navigation.goBack() },
+        ]);
+      }
     } catch (err) {
       const msg = err.name === 'AbortError'
         ? 'Request timed out. Check your connection.'
